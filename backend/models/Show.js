@@ -14,10 +14,24 @@ const Show = sequelize.define('Show', {
     type: DataTypes.DATE,
     allowNull: false
   },
-  availableSeats: {
+  totalSeats: {
     type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: 50
+  },
+  bookedSeats: {
+    type: DataTypes.JSON,
+    allowNull: false,
+    defaultValue: []
+  },
+  seatMap: {
+    type: DataTypes.JSON,
+    allowNull: false,
+    defaultValue: {
+      rows: 5,
+      cols: 10,
+      layout: Array(5).fill().map(() => Array(10).fill(false))
+    }
   },
   price: {
     type: DataTypes.FLOAT,
