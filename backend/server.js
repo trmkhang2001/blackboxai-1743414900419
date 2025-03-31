@@ -10,6 +10,7 @@ const { sequelize } = require('./models');
 const movieRoutes = require('./routes/api.movies');
 const authRoutes = require('./routes/api.auth');
 const bookingRoutes = require('./routes/api.bookings');
+const showRoutes = require('./routes/api.shows');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use('/api/movies', movieRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/shows', showRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
