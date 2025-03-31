@@ -3,12 +3,36 @@ const { Booking, Show } = require('../models');
 exports.createBooking = async (req, res) => {
   try {
     const { showId, seatNumber, totalPrice } = req.body;
+    
+    // Get the show
+    const show = await Show.findByPk(showId);
+    if (!show) {
+      return res.status(404).json({ message: 'Show not found' });
+    }
+
+    // Validate seat number format (e.g. "A1", "B5")
+    if (!/^[A-Z]\d+$/.test(seatNumber)) {
+      return res.status(400).json({ message: 'Invalid seat number format' });
+    }
+
+    // Check if seat is already booked
+    if (show.bookedSeats.includes(seatNumber)) {
+      return res.status(400).json({ message: 'Seat already booked' });
+    }
+
+    // Create booking
     const booking = await Booking.create({
       userId: req.userId,
       showId,
       seatNumber,
       totalPrice
     });
+
+    // Update show's booked seats
+    await show.update({
+      bookedSeats: [...show.bookedSeats, seatNumber]
+    });
+
     res.status(201).json(booking);
   } catch (error) {
     res.status(500).json({ message: 'Error creating booking' });
