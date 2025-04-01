@@ -13,9 +13,26 @@ const Navbar = () => {
         <div className="flex items-center space-x-4">
           {user ? (
             <>
-              <Link to="/profile" className="hover:text-blue-200">
-                <i className="fas fa-user mr-1"></i> Profile
-              </Link>
+              {user.role === 'user' && (
+                <>
+                  <Link to="/movies" className="hover:text-blue-200">
+                    <i className="fas fa-film mr-1"></i> Movies
+                  </Link>
+                  <Link to="/profile" className="hover:text-blue-200">
+                    <i className="fas fa-user mr-1"></i> Profile
+                  </Link>
+                </>
+              )}
+              {(user.role === 'staff' || user.role === 'manager') && (
+                <Link to="/staff-dashboard" className="hover:text-blue-200">
+                  <i className="fas fa-tachometer-alt mr-1"></i> Dashboard
+                </Link>
+              )}
+              {user.role === 'manager' && (
+                <Link to="/admin" className="hover:text-blue-200">
+                  <i className="fas fa-cog mr-1"></i> Admin
+                </Link>
+              )}
               <button 
                 onClick={logout}
                 className="hover:text-blue-200"
